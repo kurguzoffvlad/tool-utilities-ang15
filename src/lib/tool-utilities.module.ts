@@ -1,16 +1,10 @@
 import { NgModule } from '@angular/core';
-import { ToolUtilitiesComponent } from './tool-utilities.component';
-
 
 
 @NgModule({
-  declarations: [
-    ToolUtilitiesComponent
-  ],
+  declarations: [],
   imports: [
   ],
-  exports: [
-    ToolUtilitiesComponent
-  ]
+  exports: []
 })
 export class ToolUtilitiesModule { }
