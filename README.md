@@ -1,24 +1,90 @@
-# ToolUtilities
+```markdown
+# tool-utilities-ang15
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.0.
+Утилиты для Angular 15: безопасное выполнение Promise с логированием и без проброса исключений.
 
-## Code scaffolding
+## Установка
 
-Run `ng generate component component-name --project tool-utilities` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project tool-utilities`.
-> Note: Don't forget to add `--project tool-utilities` or else it will be added to the default project in your `angular.json` file. 
+```bash
+npm install tool-utilities-ang15
+```
 
-## Build
+Требуемые peer-зависимости:
+- `@angular/common` ^15.2.0
+- `@angular/core` ^15.2.0
 
-Run `ng build tool-utilities` to build the project. The build artifacts will be stored in the `dist/` directory.
+Также используется `tool-log` для логирования.
 
-## Publishing
+## Возможности
 
-After building your library with `ng build tool-utilities`, go to the dist folder `cd dist/tool-utilities` and run `npm publish`.
+- `AwaitTryCatchService` — выполняет Promise и возвращает `false` при ошибке вместо исключения.
+- Автоматически распознаёт и разбирает `Response` (например, из `fetch`).
+- Классифицирует ошибки (`TypeError`, `ReferenceError`, `Error`, unknown) и пишет их в лог.
 
-## Running unit tests
+## Использование
 
-Run `ng test tool-utilities` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Обычный промис
 
-## Further help
+```ts
+import { AwaitTryCatchService } from 'tool-utilities-ang15';
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+constructor(private awaitTryCatch: AwaitTryCatchService) {}
+
+const user = await this.awaitTryCatch.send(
+  this.fetchUser(1),
+  'UserComponent.load',
+  'Не удалось загрузить пользователя'
+);
+if (user !== false) { this.user = user; }
+```
+
+### fetch — Response разберётся автоматически
+
+```ts
+const todos = await this.awaitTryCatch.send(
+  fetch('https://jsonplaceholder.typicode.com/todos/1'),
+  'UserComponent.todos'
+);
+```
+
+### Обработка reject
+
+```ts
+const ok = await this.awaitTryCatch.send(
+  Promise.reject(new Error('boom')),
+  'UserComponent.reject'
+); // ok === false, ошибка уйдёт в лог
+```
+
+### API
+
+```ts
+send<T = any>(promise: Promise<T>, from?: string, errorMessage?: string): Promise<T | false>;
+```
+
+- `promise` — промис для выполнения.
+- `from` — метка источника вызова для логов (по умолчанию `'Не указано'`).
+- `errorMessage` — текст ошибки для лога при reject (по умолчанию `'Ошибка при выполнении Promise'`).
+- Возвращает результат `T`, распарсенные данные `Response` или `false` при ошибке.
+
+## Сборка
+
+```bash
+ng build tool-utilities-ang15
+```
+
+Артефакты сборки попадают в `dist/tool-utilities-ang15`.
+
+## Публикация
+
+```bash
+cd dist/tool-utilities-ang15
+npm publish
+```
+
+## Тесты
+
+```bash
+ng test tool-utilities-ang15
+```
+```
