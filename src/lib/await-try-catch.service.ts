@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { white, red } from 'tool-log';
+import { cyan, red } from 'tool-log';
 
 /**
  * Контракт сервиса-обёртки для безопасного выполнения Promise.
@@ -96,7 +96,7 @@ export class AwaitTryCatchService implements IAwaitTryCatchService {
 				return await this.handleResponse(result, from) as Promise<T | false>;
 			}
 
-			white('awaitTryCatch', 'Результат выполнения send (из ' + from + ' AwaitTryCatchService)', { result });
+			cyan('awaitTryCatch', 'Результат выполнения send (из ' + from + ' AwaitTryCatchService)', { result });
 
 			return result;
 		} catch (error) {
@@ -118,7 +118,6 @@ export class AwaitTryCatchService implements IAwaitTryCatchService {
 		try {
 			if (!response.ok) {
 				console.error(`HTTP Error: ${response.status} ${response.statusText}`);
-
 				return false;
 			}
 			const data = await response.json();
@@ -130,7 +129,7 @@ export class AwaitTryCatchService implements IAwaitTryCatchService {
 			const formData = await response.formData(); // для form-data
 			*/
 
-			white('awaitTryCatch', 'Результат выполнения send (из ' + from + ' AwaitTryCatchService)', data);
+			cyan('awaitTryCatch', 'Результат выполнения send (из ' + from + ' AwaitTryCatchService)', data);
 
 			return data;
 		} catch (parseError) {
