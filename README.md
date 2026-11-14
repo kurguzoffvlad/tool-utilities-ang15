@@ -1,4 +1,3 @@
-```markdown
 # tool-utilities-ang15
 
 Утилиты для Angular 15: безопасное выполнение Promise с логированием и без проброса исключений.
@@ -87,4 +86,4 @@ npm publish
 ```bash
 ng test tool-utilities-ang15
 ```
-```
+
