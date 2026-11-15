@@ -229,9 +229,7 @@ export class AwaitTryCatchService implements IAwaitTryCatchService {
 	): Promise<T[] | false> {
 		const results = await this.sendAllSettled(promises, from, responseMode);
 
-		if (results.some(r => !r.ok)) {
-			return false;
-		}
+		if (results.some(r => !r.ok)) { return false;}
 
 		return results.map(r => r.value as T);
 	}
