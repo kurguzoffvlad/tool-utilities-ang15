@@ -1,5 +1,7 @@
 # tool-utilities-ang15
 
+## Использование в https://github.com/kurguzoffvlad/tool-libs-ang15
+
 Утилиты для Angular 15: безопасное выполнение Promise, Observable и пакетных запросов
 с логированием и без проброса исключений.
 
